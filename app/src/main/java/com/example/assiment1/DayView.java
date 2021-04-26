@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class DayView extends AppCompatActivity {
 
@@ -30,7 +32,7 @@ public class DayView extends AppCompatActivity {
     ImageButton right;
     ImageButton Left;
     Date d;
-    String currentDay , currentMonth , currentYear;
+    String currentDay , currentMonth , currentYear , date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,51 +43,46 @@ public class DayView extends AppCompatActivity {
         Left = findViewById(R.id.leftImage);
         //get intent
         Intent comingIntent = getIntent();
-        String date = getComingIntentExtras(comingIntent);
+         date = getComingIntentExtras(comingIntent);
         day_textView.setText(date);
         String [] str = date.split("-");
         currentDay = str[0];
         currentMonth = str[1];
         currentYear = str[2];
-        STATICS.init();
+
         FillListView(currentDay , currentMonth , currentYear);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(STATICS.daysOfMonth.get(currentMonth) >= Integer.parseInt(currentDay)+1 ){
-                    int x = Integer.parseInt(currentDay) + 1;
-                    currentDay = String.valueOf(x);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+                Calendar c = Calendar.getInstance();
+                try {
+                    Date d = sdf.parse(date);
+                    c.setTime(Objects.requireNonNull(d));
+                    c.add(Calendar.DATE ,1 );
+                    date = sdf.format(c.getTime());
+                    day_textView.setText(date);
                 }
-                else{
-                    //next month
-                    currentDay = "1";
-                    currentMonth = STATICS.monthes.get(currentMonth).first;
+                catch (ParseException e) {
+                    e.printStackTrace();
                 }
-                if(currentMonth.equals("January") && currentDay.equals("1")){
-                    int cy = Integer.parseInt(currentYear) + 1 ;
-                    currentYear = String.valueOf(cy);
-                }
-                day_textView.setText(currentDay+"-"+currentMonth+"-"+currentYear);
                 FillListView(currentDay , currentMonth , currentYear);
             }
         });
         Left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(currentDay)-1 >= 1){
-                    int x = Integer.parseInt(currentDay) - 1;
-                    currentDay = String.valueOf(x);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+                Calendar c = Calendar.getInstance();
+                try {
+                    Date d = sdf.parse(date);
+                    c.setTime(Objects.requireNonNull(d));
+                    c.add(Calendar.DATE ,-1 );
+                    date = sdf.format(c.getTime());
+                    day_textView.setText(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    //prev month
-                    currentMonth = STATICS.monthes.get(currentMonth).second;
-                    currentDay = String.valueOf(STATICS.daysOfMonth.get(currentMonth));
-                }
-                if(currentMonth.equals("December") && currentDay.equals("31")){
-                    int cy = Integer.parseInt(currentYear) - 1 ;
-                    currentYear = String.valueOf(cy);
-                }
-                day_textView.setText(currentDay+"-"+currentMonth+"-"+currentYear);
                 FillListView(currentDay , currentMonth , currentYear);
             }
         });
@@ -94,19 +91,9 @@ public class DayView extends AppCompatActivity {
 
     }
 
-    private void setCurrents(String date){
-        String [] str = date.split("-");
-        currentDay = str[0];
-        currentMonth = str[1];
-        currentYear = str[2];
-    }
     private String getComingIntentExtras(Intent intent){
 
        String dayOfMonth =intent.getStringExtra("date");
-      //   d =  new Date(intent.getLongExtra("date" , -1));
-
-        //SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        //String formattedDate = df.format(d);
         return dayOfMonth;
     }
 
