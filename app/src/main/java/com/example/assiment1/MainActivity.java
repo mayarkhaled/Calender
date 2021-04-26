@@ -51,8 +51,14 @@ public class MainActivity extends AppCompatActivity {
              public void onDayClick(Date dateClicked) {
                  Intent intent = new Intent(getBaseContext(), DayView.class);
                  SimpleDateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
+                 SimpleDateFormat day = new SimpleDateFormat("dd");
+                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("d-MMMM-yyyy");
                  String formattedDate = df.format(dateClicked);
+                 String daayyy = day.format(dateClicked);
+                 if(Integer.parseInt(daayyy)  >= 10 )
                  intent.putExtra("date",formattedDate);
+                 else
+                     intent.putExtra("date" , dateFormat2.format(dateClicked));
                  startActivity(intent);
                 }
 

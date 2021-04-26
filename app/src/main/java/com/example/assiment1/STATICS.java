@@ -13,8 +13,8 @@ public class STATICS {
         monthes.put("February" ,new Pair<>("March", "January") );
         monthes.put("March" ,new Pair<>("April", "February") );
         monthes.put("April" ,new Pair<>("May", "March") );
-        monthes.put("May" ,new Pair<>("June", "May") );
-        monthes.put("June" ,new Pair<>("July", "June") );
+        monthes.put("May" ,new Pair<>("June", "April") );
+        monthes.put("June" ,new Pair<>("July", "May") );
         monthes.put("July" ,new Pair<>("August", "June") );
         monthes.put("August" ,new Pair<>("September", "July") );
         monthes.put("September" ,new Pair<>("October", "August") );
