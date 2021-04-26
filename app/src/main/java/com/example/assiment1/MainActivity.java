@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.text.format.DateFormat;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Button linkButton;
     CompactCalendarView calendarView;
     TextView textView;
+    String currentMonth , currentYear;
+    ImageButton left , right;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM-yyyy" , Locale.getDefault());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
          calendarView =(CompactCalendarView) findViewById(R.id.simpleCalendarView);
          calendarView.setUseThreeLetterAbbreviation(true);
          textView = findViewById(R.id.monthandyear);
-
+         left = findViewById(R.id.leftImage);
+         right = findViewById(R.id.rightImage);
          getCurrentDate();
+        STATICS.init();
          calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
              @Override
              public void onDayClick(Date dateClicked) {
@@ -56,7 +61,19 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText(dateFormat.format(firstDayOfNewMonth));
                 }
             });
+         left.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 clickOnLeft();
+             }
+         });
 
+         right.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 clickOnRight();
+             }
+         });
         MarkTheDaysHasEvents();
 
         linkButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +85,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void clickOnRight() {
+        calendarView.showNextMonth();
+        currentMonth = STATICS.monthes.get(currentMonth).first;
+        if(currentMonth.equals("January")){
+            int x = Integer.parseInt(currentYear);
+            currentYear = String.valueOf(x+1);
+        }
+    }
+
+    private void clickOnLeft() {
+        calendarView.showPreviousMonth();
+        currentMonth = STATICS.monthes.get(currentMonth).second;
+        if(currentMonth.equals("January")){
+            int x = Integer.parseInt(currentYear);
+            currentYear = String.valueOf(x-1);
+        }
+    }
+
     /**
      *this function marks the days which have events on it
      * it calls ListOfDatesHasEvents which should return list of days which have events .. loop on the list
@@ -96,8 +132,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void getCurrentDate(){
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-        textView.setText(formattedDate);
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());
+        SimpleDateFormat YearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+    //    String formattedDate = df.format(c);
+        currentMonth = monthFormat.format(c);
+        currentYear = YearFormat.format(c);
+        textView.setText(currentMonth+"-"+currentYear);
     }
 }

@@ -30,8 +30,6 @@ public class DayView extends AppCompatActivity {
     ImageButton right;
     ImageButton Left;
     Date d;
-    HashMap<String, Pair<String , String > > monthes = new HashMap<>();
-    HashMap<String,Integer > daysOfMonth = new HashMap<>();
     String currentDay , currentMonth , currentYear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +47,21 @@ public class DayView extends AppCompatActivity {
         currentDay = str[0];
         currentMonth = str[1];
         currentYear = str[2];
-
+        STATICS.init();
         FillListView(currentDay , currentMonth , currentYear);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(daysOfMonth.get(currentMonth) >= Integer.parseInt(currentDay)+1 ){
+                if(STATICS.daysOfMonth.get(currentMonth) >= Integer.parseInt(currentDay)+1 ){
                     int x = Integer.parseInt(currentDay) + 1;
                     currentDay = String.valueOf(x);
                 }
                 else{
                     //next month
-                    currentDay = "01";
-                    currentMonth = monthes.get(currentMonth).first;
+                    currentDay = "1";
+                    currentMonth = STATICS.monthes.get(currentMonth).first;
                 }
-                if(currentMonth.equals("January") && currentDay == "01"){
+                if(currentMonth.equals("January") && currentDay.equals("1")){
                     int cy = Integer.parseInt(currentYear) + 1 ;
                     currentYear = String.valueOf(cy);
                 }
@@ -74,14 +72,14 @@ public class DayView extends AppCompatActivity {
         Left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(currentDay)-1 > 1){
+                if(Integer.parseInt(currentDay)-1 >= 1){
                     int x = Integer.parseInt(currentDay) - 1;
                     currentDay = String.valueOf(x);
                 }
                 else{
                     //prev month
-                    currentMonth = monthes.get(currentMonth).second;
-                    currentDay = String.valueOf(daysOfMonth.get(currentMonth));
+                    currentMonth = STATICS.monthes.get(currentMonth).second;
+                    currentDay = String.valueOf(STATICS.daysOfMonth.get(currentMonth));
                 }
                 if(currentMonth.equals("December") && currentDay.equals("31")){
                     int cy = Integer.parseInt(currentYear) - 1 ;
@@ -92,31 +90,6 @@ public class DayView extends AppCompatActivity {
             }
         });
 
-        monthes.put("January" ,new Pair<>("February", "December") );
-        monthes.put("February" ,new Pair<>("March", "January") );
-        monthes.put("March" ,new Pair<>("April", "February") );
-        monthes.put("April" ,new Pair<>("May", "March") );
-        monthes.put("May" ,new Pair<>("June", "May") );
-        monthes.put("June" ,new Pair<>("July", "June") );
-        monthes.put("July" ,new Pair<>("August", "June") );
-        monthes.put("August" ,new Pair<>("September", "July") );
-        monthes.put("September" ,new Pair<>("October", "August") );
-        monthes.put("October" ,new Pair<>("November", "September") );
-        monthes.put("November" ,new Pair<>("December", "October") );
-        monthes.put("December" ,new Pair<>("January", "November") );
-
-        daysOfMonth.put("January" , 31);
-        daysOfMonth.put("February" , 28);
-        daysOfMonth.put("March" , 31);
-        daysOfMonth.put("April" , 30);
-        daysOfMonth.put("May" , 31);
-        daysOfMonth.put("June" , 30);
-        daysOfMonth.put("July" , 31);
-        daysOfMonth.put("August" , 31);
-        daysOfMonth.put("September" , 30);
-        daysOfMonth.put("October" , 31);
-        daysOfMonth.put("November" , 30);
-        daysOfMonth.put("December" , 31);
 
 
     }
