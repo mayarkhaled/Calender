@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String currentMonth , currentYear;
     ImageButton left , right;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM-yyyy" , Locale.getDefault());
+    boolean scrollFromButton = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
          right = findViewById(R.id.rightImage);
          //set current date as init of the text view
          getCurrentDate();
-         calendarView.shouldScrollMonth(false);
+         //calendarView.shouldScrollMonth(false);
          calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
              @Override
              public void onDayClick(Date dateClicked) {
@@ -61,18 +62,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onMonthScroll(Date firstDayOfNewMonth) {/*
+                public void onMonthScroll(Date firstDayOfNewMonth) {
+                    if(scrollFromButton){
+                        scrollFromButton = false;
+                        return;
+                    }
                     SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
                     currentMonth = sdf.format(firstDayOfNewMonth);
                     SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
                     currentYear = sdf2.format(firstDayOfNewMonth);
-                    textView.setText(dateFormat.format(firstDayOfNewMonth));*/
+                    textView.setText(dateFormat.format(firstDayOfNewMonth));
                 }
             });
          //scroll with left button
          left.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
+                 scrollFromButton = true;
                  clickOnLeft();
              }
          });
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
          right.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
+                 scrollFromButton = true;
                  clickOnRight();
              }
          });
