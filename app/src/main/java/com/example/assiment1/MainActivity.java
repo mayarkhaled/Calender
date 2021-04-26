@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
          right = findViewById(R.id.rightImage);
          //set current date as init of the text view
          getCurrentDate();
+         calendarView.shouldScrollMonth(false);
          calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
              @Override
              public void onDayClick(Date dateClicked) {
@@ -60,8 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onMonthScroll(Date firstDayOfNewMonth) {
-                    textView.setText(dateFormat.format(firstDayOfNewMonth));
+                public void onMonthScroll(Date firstDayOfNewMonth) {/*
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+                    currentMonth = sdf.format(firstDayOfNewMonth);
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
+                    currentYear = sdf2.format(firstDayOfNewMonth);
+                    textView.setText(dateFormat.format(firstDayOfNewMonth));*/
                 }
             });
          //scroll with left button
