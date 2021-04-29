@@ -23,7 +23,7 @@ public class DataBaseWithUI {
         for(int i = 0 ; i < notes.size() ; i++){
             Note note = notes.get(i);
             //if there is no color
-            Event event = new Event(note.getNoteText() , Color.RED , note.isCompleted());
+            Event event = new Event(note.getNoteText() , note.getNoteColor() , note.isCompleted());
             if(note.getDueDate().equals(day + "-" + month + "-" + year))
                events.add(event);
         }

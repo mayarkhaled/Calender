@@ -6,6 +6,7 @@ public class Note  {
     private String noteText;
     private String dueDate;
     private boolean isCompleted;
+    private int noteColor;
 
     public Note(int noteId, int bookId, String noteText, String dueDate, boolean isCompleted) {
         this.noteId = noteId;
@@ -13,6 +14,14 @@ public class Note  {
         this.noteText = noteText;
         this.dueDate = dueDate;
         this.isCompleted = isCompleted;
+    }
+
+    public int getNoteColor() {
+        return noteColor;
+    }
+
+    public void setNoteColor(int noteColor) {
+        this.noteColor = noteColor;
     }
 
     public Note() {
