@@ -22,8 +22,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -161,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
      * to test with the dummy data just un comment the dummy lines and comment the db lines
      * */
     private void MarkTheDaysHasEvents() {
-        ArrayList<String> dates = DataBaseWithUI.ListOfDatesHasEvents();
+        DataBaseWithUI dataBaseWithUI = new DataBaseWithUI(getApplicationContext());
+        ArrayList<String> dates = dataBaseWithUI.ListOfDatesHasEvents();
       //   DummyData d = new DummyData();
     //    ArrayList<String> dates = d.arrayList;
         if (dates != null) {
@@ -169,17 +172,31 @@ public class MainActivity extends AppCompatActivity {
                 String date = dates.get(i);
                 Calendar calendar = Calendar.getInstance();
                 String[] str = date.split("-");
-                calendar.set(Calendar.YEAR, Integer.parseInt(str[0]));
-                calendar.set(Calendar.MONTH, Integer.parseInt(str[1]) - 1);
-                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(str[2]));
-
+                calendar.set(Calendar.YEAR, Integer.parseInt(str[2]));
+                calendar.set(Calendar.MONTH, mapMonth(str[1])-1);
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(str[0]));
                 long milliTime = calendar.getTimeInMillis();
                 Event event = new Event(Color.RED, milliTime, "dd");
                 calendarView.addEvent(event);
             }
         }
     }
-
+    private int mapMonth(String month) {
+        HashMap<String, Integer> daysOfMonth = new HashMap<>();
+        daysOfMonth.put("January", 1);
+        daysOfMonth.put("February", 2);
+        daysOfMonth.put("March", 3);
+        daysOfMonth.put("April", 4);
+        daysOfMonth.put("May", 5);
+        daysOfMonth.put("June", 6);
+        daysOfMonth.put("July", 7);
+        daysOfMonth.put("August", 8);
+        daysOfMonth.put("September", 9);
+        daysOfMonth.put("October", 10);
+        daysOfMonth.put("November", 11);
+        daysOfMonth.put("December", 12);
+        return daysOfMonth.get(month);
+    }
     private void getCurrentDate(){
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());

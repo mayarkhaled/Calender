@@ -103,7 +103,9 @@ public class DayView extends AppCompatActivity {
      * this function fills the day with its event , once the day is clicked
      * */
     private void FillListView(String dayOfMonth , String month , String year){
-        ArrayList<Event> arrayOfEvents = DataBaseWithUI.ListOfEvents(dayOfMonth , month , year);
+        DataBaseWithUI dataBaseWithUI = new DataBaseWithUI(getApplicationContext());
+
+        ArrayList<Event> arrayOfEvents = dataBaseWithUI.ListOfEvents(dayOfMonth , month , year);
        // DummyData d = new DummyData();
 /*
         ArrayList<Event> arrayOfEvents = new ArrayList<>();

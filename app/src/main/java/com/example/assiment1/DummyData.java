@@ -14,16 +14,16 @@ public class DummyData {
   public static ArrayList<String> eventsOn1542021 = new ArrayList<>();
 
    public DummyData(){
-        fillArrayList("2021-4-15" , "2021-4-20");
+        fillArrayList("2021-April-15" , "2021-April-20");
         eventsOn1542021.add("home work");
         eventsOn1542021.add("online meetings");
    }
 
    public static void fillArrayList(String d1 , String d2){
-       arrayList.add("2021-4-15");
-       arrayList.add("2021-4-16");
-       arrayList.add("2021-4-17");
-       arrayList.add("2021-4-18");
+       arrayList.add("2021-April-15");
+       arrayList.add("2021-April-16");
+       arrayList.add("2021-April-17");
+       arrayList.add("2021-April-18");
 
    }
 
